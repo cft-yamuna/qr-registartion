@@ -63,7 +63,7 @@ const Register = () => {
 
       if (emailError) {
         console.error("Email error:", emailError);
-        toast.warning("Registration successful, but email failed to send. You can still download your QR code.");
+        toast.warning("Registration successful");
       } else {
         toast.success("Registration successful! Check your email for the QR code.");
       }
