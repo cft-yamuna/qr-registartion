@@ -145,7 +145,7 @@ const Scanner = () => {
     };
   }, [qrCodeSuccessCallback]);
 
-  const bgImage = lastScan?.success ? "url(/s2.png)" : "url(/s1.png)";
+  const bgImage = lastScan?.success ? "url(/s2.png)" : "url(/s3.png)";
 
   return (
     <div 
@@ -154,7 +154,7 @@ const Scanner = () => {
     >
       {showConfetti && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={500} />}
       
-      <div id="qr-reader" className={`w-1/2 h-auto ${lastScan ? 'hidden' : ''}`} style={{ transform: 'translateY(10%)' }}></div>
+      <div id="qr-reader" className={`w-1/2 h-auto ${lastScan ? 'hidden' : ''}`} style={{ transform: 'translateY(20%)' }}></div>
 
       {lastScan && (
         <div className="max-w-lg text-center" style={{ transform: 'translateY(60%)' }}>
