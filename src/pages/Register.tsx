@@ -5,16 +5,15 @@ import * as z from "zod";
 import QRCode from "qrcode";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, Mail, Loader2, CheckCircle2 } from "lucide-react";
+import { Download, Loader2, CheckCircle2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
   email: z.string().email("Invalid email address").max(255),
-  phone: z.string().min(10, "Phone must be at least 10 digits").max(15),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -29,25 +28,17 @@ const Register = () => {
     defaultValues: {
       name: "",
       email: "",
-      phone: "",
     },
   });
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      // Generate unique QR code data
       const qrData = `EVENT-${Date.now()}-${data.email}`;
 
-      // Insert into database
       const { error: dbError } = await supabase
         .from("attendees")
-        .insert({
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          qr_code_data: qrData,
-        });
+        .insert({ name: data.name, email: data.email, qr_code_data: qrData, phone: '0000000000' });
 
       if (dbError) {
         if (dbError.code === "23505") {
@@ -58,25 +49,16 @@ const Register = () => {
         return;
       }
 
-      // Generate QR code
       const qrCodeDataUrl = await QRCode.toDataURL(qrData, {
         width: 400,
         margin: 2,
-        color: {
-          dark: "#7c3aed",
-          light: "#ffffff",
-        },
+        color: { dark: "#000000", light: "#ffffff" },
       });
 
       setQrCodeUrl(qrCodeDataUrl);
 
-      // Send email with QR code
       const { error: emailError } = await supabase.functions.invoke("send-registration-email", {
-        body: {
-          email: data.email,
-          name: data.name,
-          qrCodeDataUrl: qrCodeDataUrl,
-        },
+        body: { email: data.email, name: data.name, qrCodeDataUrl: qrCodeDataUrl },
       });
 
       if (emailError) {
@@ -87,7 +69,7 @@ const Register = () => {
       }
 
       setRegistrationComplete(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Registration error:", error);
       toast.error("Registration failed. Please try again.");
     } finally {
@@ -109,18 +91,12 @@ const Register = () => {
     form.reset();
   };
 
+  const bgImage = registrationComplete ? "url(/qr.png)" : "url(/formbg.png)";
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-lg border-0" style={{ boxShadow: "var(--shadow-glow)" }}>
-        <CardHeader className="text-center space-y-2">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Event Registration
-          </CardTitle>
-          <CardDescription className="text-base">
-            Register for the event and get your QR code
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+    <div className="min-h-screen bg-cover bg-center flex items-center justify-center p-4" style={{ backgroundImage: bgImage }}>
+      <Card className="w-full max-w-md border-0 bg-transparent" style={{ transform: 'translateY(-20%)' }}>
+        <CardContent className="pt-6">
           {!registrationComplete ? (
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -129,9 +105,9 @@ const Register = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Full Name</FormLabel>
+                      <FormLabel className="text-black">Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe" {...field} />
+                        <Input placeholder="John Doe" {...field} style={{ backgroundColor: '#FAA20C', color: '#883226', borderColor: '#883226' }} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -142,22 +118,9 @@ const Register = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email Address</FormLabel>
+                      <FormLabel className="text-black">Email Address</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="john@example.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
-                      <FormControl>
-                        <Input placeholder="+1234567890" {...field} />
+                        <Input type="email" placeholder="john@example.com" {...field} style={{ backgroundColor: '#FAA20C', color: '#883226', borderColor: '#883226' }} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -165,16 +128,16 @@ const Register = () => {
                 />
                 <Button 
                   type="submit" 
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition-all duration-300"
+                  className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-300"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Registering...
+                      Counting you in...
                     </>
                   ) : (
-                    "Register Now"
+                    "Count Me In"
                   )}
                 </Button>
               </form>
@@ -182,25 +145,25 @@ const Register = () => {
           ) : (
             <div className="space-y-6 text-center animate-in fade-in-50 duration-500">
               <div className="flex justify-center">
-                <CheckCircle2 className="h-16 w-16 text-green-500" />
+                <CheckCircle2 className="h-16 w-16 text-black" />
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-2">Registration Successful!</h3>
-                <p className="text-muted-foreground mb-4">
+                <h3 className="text-xl font-semibold mb-2 text-black">Registration Successful!</h3>
+                <p className="text-black mb-4">
                   Your QR code has been sent to your email
                 </p>
               </div>
               {qrCodeUrl && (
-                <div className="bg-white p-4 rounded-lg border-2 border-purple-200">
+                <div className="bg-white p-4 rounded-lg border-2 border-purple-200" style={{ transform: 'translateY(30%)' }}>
                   <img src={qrCodeUrl} alt="QR Code" className="w-full max-w-xs mx-auto" />
                 </div>
               )}
               <div className="flex flex-col gap-2">
-                <Button onClick={downloadQRCode} className="w-full" variant="outline">
+                <Button onClick={downloadQRCode} className="w-full" style={{ backgroundColor: '#883226', color: '#FAA20C' }}>
                   <Download className="mr-2 h-4 w-4" />
                   Download QR Code
                 </Button>
-                <Button onClick={handleNewRegistration} className="w-full">
+                <Button onClick={handleNewRegistration} className="w-full" style={{ backgroundColor: '#883226', color: '#FAA20C' }}>
                   Register Another Attendee
                 </Button>
               </div>

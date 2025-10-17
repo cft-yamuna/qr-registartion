@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Register from "./pages/Register";
 import Scanner from "./pages/Scanner";
 import Dashboard from "./pages/Dashboard";
-import Navigation from "./components/Navigation";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -17,7 +16,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Navigation />
+        
         <Routes>
           <Route path="/" element={<Navigate to="/register" replace />} />
           <Route path="/register" element={<Register />} />
