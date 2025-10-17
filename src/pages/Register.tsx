@@ -107,7 +107,7 @@ const Register = () => {
                     <FormItem>
                       <FormLabel className="text-black">Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe" {...field} style={{ backgroundColor: '#FAA20C', color: '#883226', borderColor: '#883226' }} />
+                        <Input placeholder="John Doe" {...field} style={{ backgroundColor: '#FAA20C', color: '#883226', borderColor: '#883226', outline: 'none', boxShadow: 'none' }} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -120,7 +120,7 @@ const Register = () => {
                     <FormItem>
                       <FormLabel className="text-black">Email Address</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="john@example.com" {...field} style={{ backgroundColor: '#FAA20C', color: '#883226', borderColor: '#883226' }} />
+                        <Input type="email" placeholder="john@example.com" {...field} style={{ backgroundColor: '#FAA20C', color: '#883226', borderColor: '#883226', outline: 'none', boxShadow: 'none' }} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -147,7 +147,7 @@ const Register = () => {
               {qrCodeUrl && (
                 <img src={qrCodeUrl} alt="QR Code" className="w-full max-w-[150px] mx-auto" />
               )}
-              <div className="flex flex-col gap-2" style={{ transform: 'translateY(30%)' }}>
+              <div className="flex flex-col gap-2">
                 <Button onClick={downloadQRCode} className="w-full" style={{ backgroundColor: '#883226', color: '#FAA20C' }}>
                   <Download className="mr-2 h-4 w-4" />
                   Download
