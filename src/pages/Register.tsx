@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, Loader2, CheckCircle2 } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
@@ -144,27 +144,13 @@ const Register = () => {
             </Form>
           ) : (
             <div className="space-y-6 text-center animate-in fade-in-50 duration-500">
-              <div className="flex justify-center">
-                <CheckCircle2 className="h-16 w-16 text-black" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2 text-black">Registration Successful!</h3>
-                <p className="text-black mb-4">
-                  Your QR code has been sent to your email
-                </p>
-              </div>
               {qrCodeUrl && (
-                <div className="bg-white p-4 rounded-lg border-2 border-purple-200" style={{ transform: 'translateY(30%)' }}>
-                  <img src={qrCodeUrl} alt="QR Code" className="w-full max-w-xs mx-auto" />
-                </div>
+                <img src={qrCodeUrl} alt="QR Code" className="w-full max-w-[150px] mx-auto" />
               )}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2" style={{ transform: 'translateY(30%)' }}>
                 <Button onClick={downloadQRCode} className="w-full" style={{ backgroundColor: '#883226', color: '#FAA20C' }}>
                   <Download className="mr-2 h-4 w-4" />
-                  Download QR Code
-                </Button>
-                <Button onClick={handleNewRegistration} className="w-full" style={{ backgroundColor: '#883226', color: '#FAA20C' }}>
-                  Register Another Attendee
+                  Download
                 </Button>
               </div>
             </div>
