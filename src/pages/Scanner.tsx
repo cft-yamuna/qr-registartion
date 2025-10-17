@@ -154,7 +154,7 @@ const Scanner = () => {
     >
       {showConfetti && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={500} />}
       
-      <div id="qr-reader" className={`w-1/2 h-auto ${lastScan ? 'hidden' : ''}`} style={{ transform: 'translateY(20%)' }}></div>
+      <div id="qr-reader" className={`w-1/3 h-auto ${lastScan ? 'hidden' : ''}`} style={{ transform: 'translateY(20%)' }}></div>
 
       {lastScan && (
         <div className="max-w-lg text-center" style={{ transform: 'translateY(60%)' }}>
