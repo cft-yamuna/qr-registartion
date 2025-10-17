@@ -143,7 +143,7 @@ const Register = () => {
               </form>
             </Form>
           ) : (
-            <div className="space-y-6 text-center animate-in fade-in-50 duration-500">
+            <div className="space-y-6 text-center animate-in fade-in-50 duration-500" style={{ transform: 'translateY(20%)' }}>
               {qrCodeUrl && (
                 <img src={qrCodeUrl} alt="QR Code" className="w-full max-w-[150px] mx-auto" />
               )}

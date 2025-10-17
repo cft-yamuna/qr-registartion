@@ -82,7 +82,7 @@ const Scanner = () => {
       setTimeout(() => {
         setLastScan(null);
         scannerRef.current?.resume();
-      }, 5000);
+      }, 8000);
       return;
     }
 
@@ -92,7 +92,7 @@ const Scanner = () => {
       setTimeout(() => {
         setLastScan(null);
         scannerRef.current?.resume();
-      }, 5000);
+      }, 8000);
       return;
     }
 
@@ -107,7 +107,7 @@ const Scanner = () => {
       setTimeout(() => {
         setLastScan(null);
         scannerRef.current?.resume();
-      }, 5000);
+      }, 8000);
       return;
     }
 
@@ -121,7 +121,7 @@ const Scanner = () => {
       setShowConfetti(false);
       setLastScan(null);
       scannerRef.current?.resume();
-    }, 5000);
+    }, 8000);
   }, []);
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const Scanner = () => {
     >
       {showConfetti && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={500} />}
       
-      <div id="qr-reader" className={`w-1/2 h-auto ${lastScan ? 'hidden' : ''}`} style={{ transform: 'translateY(30%)' }}></div>
+      <div id="qr-reader" className={`w-1/2 h-auto ${lastScan ? 'hidden' : ''}`} style={{ transform: 'translateY(10%)' }}></div>
 
       {lastScan && (
         <div className="max-w-lg text-center" style={{ transform: 'translateY(60%)' }}>
