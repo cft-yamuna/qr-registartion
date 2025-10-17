@@ -129,7 +129,7 @@ const Scanner = () => {
     const config = { fps: 10 };
 
     scannerRef.current.start(
-      { facingMode: "environment" },
+      { facingMode: "user" },
       config,
       qrCodeSuccessCallback,
       () => {}
@@ -154,7 +154,7 @@ const Scanner = () => {
     >
       {showConfetti && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={500} />}
       
-      <div id="qr-reader" className={`w-11/12 max-w-2xl rounded-lg overflow-hidden ${lastScan ? 'hidden' : ''}`} style={{ transform: 'translateY(40%)' }}></div>
+      <div id="qr-reader" className={`w-full max-w-md rounded-lg overflow-hidden ${lastScan ? 'hidden' : ''}`} style={{ transform: 'translateY(20%)' }}></div>
 
       {lastScan && (
         <div className="max-w-lg text-center" style={{ transform: 'translateY(60%)' }}>
